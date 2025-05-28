@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+
+<h2>Register</h2>
+<form action="/register" method="POST">
+  <input type="text" name="name" placeholder="Name" required />
+  <input type="email" name="email" placeholder="Email" required />
+  <input type="password" name="password" placeholder="Password" required />
+  <input type="checkbox" onclick="togglePassword()"> Show Password
+  <button type="submit">Register</button>
+</form>
+
+<script>
+  function togglePassword() {
+    const passwordInput = document.querySelector('input[name="password"]');
+    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+  }
+</script>
+
+<%- include('partials/footer') %>

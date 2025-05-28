@@ -1,0 +1,1 @@
+module.exports = password => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(password);
