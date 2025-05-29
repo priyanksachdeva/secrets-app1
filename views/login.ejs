@@ -3,10 +3,27 @@
 <h2>Login</h2>
 <form action="/login" method="POST">
   <input type="email" name="email" placeholder="Email" required />
-  <input type="password" name="password" placeholder="Password" required />
-  <input type="checkbox" onclick="togglePassword()" /> Show Password
+  <input
+    type="password"
+    name="password"
+    id="password"
+    placeholder="Password"
+    required
+  />
+
+  <label>
+    <input type="checkbox" onclick="togglePassword()" /> Show Password
+  </label>
+
   <button type="submit">Login</button>
 </form>
+
+<script>
+  function togglePassword() {
+    const pw = document.getElementById("password");
+    pw.type = pw.type === "password" ? "text" : "password";
+  }
+</script>
 
 <script>
   function togglePassword() {

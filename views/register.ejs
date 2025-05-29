@@ -4,10 +4,22 @@
 <form action="/register" method="POST">
   <input type="text" name="name" placeholder="Name" required />
   <input type="email" name="email" placeholder="Email" required />
-  <input type="password" name="password" placeholder="Password" required />
-  <input type="checkbox" onclick="togglePassword()"> Show Password
+  <input type="password" name="password" placeholder="Password" id="password" required />
+  
+  <label>
+    <input type="checkbox" onclick="togglePassword()"> Show Password
+  </label>
+  
   <button type="submit">Register</button>
 </form>
+
+<script>
+function togglePassword() {
+  const pw = document.getElementById('password');
+  pw.type = pw.type === 'password' ? 'text' : 'password';
+}
+</script>
+
 
 <script>
   function togglePassword() {
