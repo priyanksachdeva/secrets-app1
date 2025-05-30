@@ -36,7 +36,6 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Routes
 app.use('/', authRoutes);
 
 // Start server
