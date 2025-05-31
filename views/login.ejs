@@ -1,35 +1,33 @@
-<%- include('partials/header') %>
+<%- include('partials/header', { user: user }) %>
 
-<h2>Login</h2>
-<form action="/login" method="POST">
-  <input type="email" name="email" placeholder="Email" required />
-  <input
-    type="password"
-    name="password"
-    id="password"
-    placeholder="Password"
-    required
-  />
+<main>
+  <section class="form-container">
+    <h2>Login</h2>
 
-  <label>
-    <input type="checkbox" onclick="togglePassword()" /> Show Password
-  </label>
+    <% if (error) { %>
+      <div class="error-message">
+        <p><%= error %></p>
+      </div>
+    <% } %>
 
-  <button type="submit">Login</button>
-</form>
+    <form action="/login" method="POST">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" id="password" placeholder="Password" required />
+
+      <label class="show-password">
+        <input type="checkbox" onclick="togglePassword()" />
+        Show Password
+      </label>
+
+      <button type="submit">Login</button>
+    </form>
+  </section>
+</main>
 
 <script>
   function togglePassword() {
-    const pw = document.getElementById("password");
-    pw.type = pw.type === "password" ? "text" : "password";
-  }
-</script>
-
-<script>
-  function togglePassword() {
-    const passwordInput = document.querySelector('input[name="password"]');
-    passwordInput.type =
-      passwordInput.type === "password" ? "text" : "password";
+    const passwordInput = document.getElementById("password");
+    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
   }
 </script>
 

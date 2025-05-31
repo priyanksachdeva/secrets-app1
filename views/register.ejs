@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 
 <h2>Register</h2>
-<form action="/register" method="POST">
+<form id="registerForm" action="/register" method="POST">
   <input type="text" name="name" placeholder="Name" required />
   <input type="email" name="email" placeholder="Email" required />
   <input type="password" name="password" placeholder="Password" id="password" required />
@@ -10,22 +10,38 @@
     <input type="checkbox" onclick="togglePassword()"> Show Password
   </label>
   
+  <div id="errorMsg" style="color: red; margin: 10px 0; display: none;"></div>
+  
   <button type="submit">Register</button>
 </form>
 
 <script>
-function togglePassword() {
-  const pw = document.getElementById('password');
-  pw.type = pw.type === 'password' ? 'text' : 'password';
-}
-</script>
-
-
-<script>
   function togglePassword() {
-    const passwordInput = document.querySelector('input[name="password"]');
-    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    const pw = document.getElementById('password');
+    pw.type = pw.type === 'password' ? 'text' : 'password';
   }
+
+  // Password strength validator
+  function isPasswordStrong(password) {
+    // Example criteria:
+    // Minimum 8 characters, at least 1 uppercase, 1 lowercase, 1 number, 1 special char
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    return regex.test(password);
+  }
+
+  // Form submit handler
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const errorMsg = document.getElementById('errorMsg');
+
+    if (!isPasswordStrong(password)) {
+      e.preventDefault(); // stop form submission
+      errorMsg.style.display = 'block';
+      errorMsg.textContent = 'Password is too weak. It must be at least 8 characters long and include uppercase, lowercase, number, and special character.';
+    } else {
+      errorMsg.style.display = 'none';
+    }
+  });
 </script>
 
 <%- include('partials/footer') %>
