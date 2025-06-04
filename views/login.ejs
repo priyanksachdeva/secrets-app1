@@ -2,17 +2,27 @@
 
 <main>
   <section class="form-container">
-    <h2>Login</h2>
+    <h2>Welcome Back!</h2>
 
-    <% if (error) { %>
-      <div class="error-message">
-        <p><%= error %></p>
-      </div>
+    <% if (success) { %>
+    <div class="success-message">
+      <p><%= success %></p>
+    </div>
+    <% } %> <% if (error) { %>
+    <div class="error-message">
+      <p><%= error %></p>
+    </div>
     <% } %>
 
     <form action="/login" method="POST">
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password" id="password" placeholder="Password" required />
+      <input type="email" name="email" placeholder="Email address" required />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+        required
+      />
 
       <label class="show-password">
         <input type="checkbox" onclick="togglePassword()" />
@@ -21,13 +31,17 @@
 
       <button type="submit">Login</button>
     </form>
+    <p style="text-align: center; margin-top: 16px">
+      Don't have an account? <a href="/register">Sign up here</a>
+    </p>
   </section>
 </main>
 
 <script>
   function togglePassword() {
     const passwordInput = document.getElementById("password");
-    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+    passwordInput.type =
+      passwordInput.type === "password" ? "text" : "password";
   }
 </script>
 

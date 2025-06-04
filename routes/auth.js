@@ -39,7 +39,7 @@ router.post("/register", async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 12);
     await User.create({ name, email, password: hashedPassword });
-    res.redirect("/login");
+    res.redirect("/login?registered=1");
   } catch (err) {
     renderWithUser(res, "register", {
       error: "Something went wrong. Please try again.",
@@ -48,7 +48,10 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  renderWithUser(res, "login", { error: null });
+  const success = req.query.registered
+    ? "Registration successful! Please log in."
+    : null;
+  renderWithUser(res, "login", { error: null, success });
 });
 
 router.post("/login", async (req, res) => {
@@ -58,12 +61,14 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return renderWithUser(res, "login", {
         error: "Incorrect email or password.",
+        success: null,
       });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return renderWithUser(res, "login", {
         error: "Incorrect email or password.",
+        success: null,
       });
     }
     const token = jwt.sign(
@@ -76,6 +81,7 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     renderWithUser(res, "login", {
       error: "Sorry, something went wrong. Please try again.",
+      success: null,
     });
   }
 });
