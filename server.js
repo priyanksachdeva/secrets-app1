@@ -1,33 +1,31 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
-const authRoutes = require('./routes/auth');
-const jwt = require('jsonwebtoken');
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const authRoutes = require("./routes/auth");
+const jwt = require("jsonwebtoken");
 
 const app = express();
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(cookieParser());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 10000,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 10000,
+  })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-// Middleware to decode JWT token and set user info for EJS templates
 app.use((req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
     res.locals.user = null;
     return next();
   }
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     res.locals.user = decoded;
@@ -37,7 +35,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', authRoutes);
+app.use("/", authRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
